@@ -167,7 +167,7 @@ app.get('/Mypage', async(req, res) => {
   if (req.user){
     res.render('pages/Mypage', {result : result, place:place }) 
   }else {
-    res.send('로그인 필요')
+    res.render('pages/Login')
   }  
 });
 
@@ -273,6 +273,17 @@ app.get('/request',async(req,res)=>{
   let user = req.user
   res.render('pages/request', {result : result, user : user})
 })
+
+// 즐겨찾기 
+app.get('/favorite',async(req,res)=>{
+  let result = await db.collection('place').find().toArray()
+  res.render('pages/favorite', {place : result})
+})
+
+app.post('/favorite',async(req,res)=>{
+  res.redirect('back')
+})
+
 
 // 채팅
 app.get('/chat/:id',async(req,res)=>{

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <% for(let i=0; i<place.length; i++) { %>
+            <p><img src="<%= place[i].img %>"></p>
+            <p><%= place[i].address %></p>
+            <p><%= place[i].name %></p>
+            <p><%= place[i].time %></p>
+            <p><%= place[i].number %></p>
+            <p><a href="<%= place[i].address %>" target="_blank">지도</a></p>
+            <input type="submit" value="즐겨찾기 추가">
+
+        <% } %>
+
+
+    <script>
+        for (let i=0; i<'<%= place.length %>'; i++) {
+            let input = document.querySelector('input')
+            input.addEventListener('click',(e)=>{
+                location.href=`/favorite?name=${dataset.id}`
+            })
+        }
+        
+    </script>
+</body>
+</html>
