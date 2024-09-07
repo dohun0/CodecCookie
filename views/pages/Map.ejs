@@ -3,10 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="styles/map.css">
+    <title>Map</title>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a1c259138950b8584e00a19aad01240"></script>
 </head>
 <body>
     <%- include('../partials/header.ejs') %>
+
+    <h1>여행 장소 추천받기</h1>
+    <button onclick="getLocation()">내 위치 가져오기</button>
+    <p id="status">위치를 찾지 못했습니다</p>
+    <div id="map"></div>
+    <ul id="places"></ul>
+
+
+  <script>
+    let map;
+    let ps;
+
+
+    function getLocation() {
+      const status = document.getElementById("status");
+      
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            status.textContent = `위도: ${latitude}, 경도: ${longitude}`;
+            
+            // 지도를 해당 위치로 이동
+            const mapContainer = document.getElementById('map');
+            const mapOption = {
+              center: new kakao.maps.LatLng(latitude, longitude),
+              level: 4
+            };
+            map = new kakao.maps.Map(mapContainer, mapOption);
+            
+            // 마커 표시
+            const marker = new kakao.maps.Marker({
+              position: new kakao.maps.LatLng(latitude, longitude)
+            });
+            marker.setMap(map);
+
+            // 장소 검색 객체 생성
+            ps = new kakao.maps.services.Places();
+            
+            // 주변 나들이 장소 검색
+            const placesList = document.getElementById("places");
+            ps.keywordSearch("관광지", (data, status, pagination) => {
+              if (status === kakao.maps.services.Status.OK) {
+                placesList.innerHTML = "";
+                data.forEach((place) => {
+                  const listItem = document.createElement("li");
+                  listItem.textContent = `${place.place_name} (${place.address_name})`;
+                  placesList.appendChild(listItem);
+                  
+                  // 지도에 마커 추가
+                  const placeMarker = new kakao.maps.Marker({
+                    position: new kakao.maps.LatLng(place.y, place.x),
+                    map: map
+                  });
+                });
+              } else {
+                placesList.textContent = "주변 관광지를 찾을 수 없습니다.";
+              }
+            }, {
+              location: new kakao.maps.LatLng(latitude, longitude),
+              radius: 5000 // 5km 내에서 검색
+            });
+          },
+          (error) => {
+            status.textContent = `위치 정보를 가져올 수 없습니다: ${error.message}`;
+          }
+        );
+      } else {
+        status.textContent = "브라우저가위치 서비스를 지원하지 않습니다.";
+      }
+    }
+  </script>
+
+
+
+
+
+
 
     <%- include('../partials/footer.ejs') %>
 </body>
