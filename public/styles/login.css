@@ -73,6 +73,11 @@ body {
     align-items: center;
 }
 
+.login-box form a {
+    text-decoration: none;
+    color: white;
+}
+
 .login-box form input {
     width: 100%;
     padding: 10px;

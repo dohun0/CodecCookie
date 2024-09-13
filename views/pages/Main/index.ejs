@@ -8,85 +8,70 @@
 </head>
 <body>
     <%- include('../../partials/header.ejs') %>
-    <div class="mainbg">
-        <!-- <img src="/images/bgimg.png"> -->
-        <h1>메인</h1>
-    </div>
-
-    <ul class="icons">
-        <li>  <!-- 서울 -->
-            <div class="seoul_icon"><img src="/images/seoul.png" alt="logo"> </div>
-            <div class="icons_text">서울</div>
-        </li>
-        <li>  <!-- 인천 -->
-            <div class="seoul_icon"><img src="/images/incheon.png" alt="logo"> </div>
-            <div class="icons_text">인천</div>
-        </li>
-        <li>  <!-- 부산 -->
-            <div class="seoul_icon"><img src="/images/busan.png" alt="logo"> </div>
-            <div class="icons_text">부산</div>
-        </li>
-        <li>  <!-- 경기 -->
-            <div class="seoul_icon"><img src="/images/seoul.png" alt="logo"> </div>
-            <div class="icons_text">경기</div>
-        </li>
-        <li>  <!-- 광주 -->
-            <div class="seoul_icon"><img src="/images/seoul.png" alt="logo"> </div>
-            <div class="icons_text">광주</div>
-        </li>
-        <li>  <!-- 강원 -->
-            <div class="seoul_icon"><img src="/images/seoul.png" alt="logo"> </div>
-            <div class="icons_text">강원</div>
-        </li>
-    </ul>
     
-    <div class="reclayout">
-    <p>서울 추천 여행지</p>
-    <p><a href=""> 더보기</a></p>
-    </div>
-
-    <ul class="recspot">
-            <li>
-                <a href=""></a>
-                <img src="/images/khm.png">광화문
-            </li>
-            <li>
-                <a href=""></a>
-                <img src="/images/khm.png">광화문
-            </li>
-            <li>
-                <a href=""></a>
-                <img src="/images/khm.png">광화문
-            </li>
-            <li>
-                <a href=""></a>
-                <img src="/images/khm.png">광화문
-            </li>
-    </ul>
-
-    <div class="reclayout">
-        <p>서울 추천 맛집</p>
-        <p><a href=""> 더보기</a></p>
-        </div>
-    
-        <ul class="recfood">
-                <li>
-                    <a href=""></a>
-                    <img src="/images/khm.png">광화문
-                </li>
-                <li>
-                    <a href=""></a>
-                    <img src="/images/khm.png">광화문
-                </li>
-                <li>
-                    <a href=""></a>
-                    <img src="/images/khm.png">광화문
-                </li>
-                <li>
-                    <a href=""></a>
-                    <img src="/images/khm.png">광화문
-                </li>
+    <div class="kind_wrap">
+      <div class="kind_slider">
+        <ul class="slider">
+            <li><img src="/images/slide1.jpg" alt=""></li>
+            <li><img src="/images/lotte.jpg" alt=""></li>
+            <li><img src="/images/namsan.jpg" alt=""></li>
         </ul>
+      </div>
+      <div class="arrow">
+          <a href="" class="prev">이전</a>
+          <a href="" class="next">다음</a>
+      </div>
+    </div>
+
+    <div class="rec">
+      <h3>추천 여행지</h3>
+      <div class="recspot">
+        <div class="rec"></div>
+        <div class="rec"></div>
+        <div class="rec"></div>
+
+      </div>
+    </div>
+
+
+      <script>
+        window.onload = function() {
+          const kindWrap =  document.querySelector('.kind_wrap');
+          const slider = kindWrap.querySelector('.slider');
+          const slideLis = slider.querySelectorAll('li')
+          const moveButton = kindWrap.querySelector('.arrow');
+        
+          /* ul 넓이 계산해 주기 */
+          const liWidth = slideLis[0].clientWidth;
+          const sliderWidth = liWidth * slideLis.length;
+          slider.style.width = `${sliderWidth}px` ;
+        
+          /* 리스너 설치하기 */
+          let currentIdx = 0; // 슬라이드 현재 번호
+          let translate = 0; // 슬라이드 위치 값
+          moveButton.addEventListener('click', moveSlide);
+        
+          function moveSlide(event) {
+            event.preventDefault();
+            if (event.target.className === 'next') {
+              if (currentIdx !== slideLis.length -1) {
+                translate -= liWidth;
+                slider.style.transform = `translateX(${translate}px)`;
+                currentIdx += 1;
+              }
+            } else if (event.target.className === 'prev') {
+                if (currentIdx !== 0) {
+                  translate += liWidth;
+                  slider.style.transform = `translateX(${translate}px)`;
+                  currentIdx -= 1;
+                }
+              }
+          }
+        
+        }
+        </script>
+
+
         <%- include('../../partials/footer.ejs') %>
 
         
