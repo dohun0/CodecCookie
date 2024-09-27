@@ -14,7 +14,6 @@
     text-align: left;
     padding: 50px 0;
     margin-left: 200px;
-    
   }
   
   .theme-section h1 {
@@ -32,8 +31,8 @@
     height: 300px; /* 높이를 적절히 조정할 수 있습니다 */
   }
   
-  .yellow-background {
-    background-color: #FDFFE5; /* 노란색 배경 */
+  .purple-background {
+    background-color: #F4E5FF; /* 보라색 배경 */
     height: 500px; /* 높이는 카드가 걸칠 수 있을 만큼 조절 */
   }
   
